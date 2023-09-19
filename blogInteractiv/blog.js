@@ -3,6 +3,7 @@ let buttonArticle = document.getElementById("article-on-of");
 
 // Selectare "Button" --> "Creeaza articol"
 let buttonCreator = document.querySelector(".create-btn");
+let createButtonIsPressed = false;
 
 // Selectare  "Button" --> "Posteaza articol"
 let buttonPost = document.getElementById("post");
@@ -41,37 +42,42 @@ function checkInputLength (input) {
 }
 
 function checkForShow () {
-    if( checkInputLength(inputName) >= 3) {
+    if(createButtonIsPressed) {
+        if( checkInputLength(inputName) >= 3) {
 
-        if( checkInputLength(inputLastName) >= 3) {
-            
-            if( checkInputLength(inputTitle) > 0) {
-
-                if( checkInputLength(article) >= 10) {
-
-                    userArticleAndMenu.classList.toggle("show-article-container-menu");
-
-                    if( userArticleAndMenu.className !== "hidden show-article-container-menu" ) {
-                        buttonArticle.innerHTML = "Vezi articol";
+            if( checkInputLength(inputLastName) >= 3) {
+                
+                if( checkInputLength(inputTitle) > 0) {
+    
+                    if( checkInputLength(article) >= 10) {
+    
+                        userArticleAndMenu.classList.toggle("show-article-container-menu");
+    
+                        if( userArticleAndMenu.className !== "hidden show-article-container-menu" ) {
+                            buttonArticle.innerHTML = "Vezi articol";
+                        } else {
+                            buttonArticle.innerHTML = "Ascunde articol";
+                        }
+                
                     } else {
-                        buttonArticle.innerHTML = "Ascunde articol";
+                        alert("Va rog sa folositi o descriere mai detaliata \n\t Cel putin 9 caractere")
                     }
-            
+                
                 } else {
-                    alert("Va rog sa folositi o descriere mai detaliata \n\t Cel putin 9 caractere")
+                    alert("Titlul nu este corespunzator" )
                 }
-            
+    
             } else {
-                alert("Titlul nu este corespunzator" )
+                alert("Preumele dumneavoastra nu este corespunzator\n\t Lungimea prenumelui trebuie sa fie mai mare de " + 3)
             }
-
+            
         } else {
-            alert("Preumele dumneavoastra nu este corespunzator\n\t Lungimea prenumelui trebuie sa fie mai mare de " + 3)
+            alert("Numele dumneavoastra nu este corespunzator\n\t Lungimea numelui trebuie sa fie mai mare de " + 3)
         }
-        
     } else {
-        alert("Numele dumneavoastra nu este corespunzator\n\t Lungimea numelui trebuie sa fie mai mare de " + 3)
+        alert("Pentru a vizualiza un articol este necesara Creearea acrticolului prin apasarea butonului 'Creeaza articol'" )
     }
+    
 }
 
 buttonArticle.addEventListener("click", function(){
@@ -112,7 +118,8 @@ function writeArticleStyleDefault () {
                         document.querySelector("#user-article-container .paragraph-created:nth-of-type(2)").innerHTML = "Articol creeat de: " + inputName.value + " " + inputLastName.value;
                         buttonCreator.setAttribute("title", "Apasa acest buton atunci cand doresti sa modifici ceva in Articol");        
                     } else {
-                
+                        
+                        createButtonIsPressed = true;
                         if( document.querySelector(".heading-created") == null) {
                             userArticle.innerHTML += " <h3 class=\"heading-created\">" + inputTitle.value + " -- <a href=\"javascript:void(0)\">Lasa un comentariu</a></h3>";
                         } 
@@ -121,7 +128,7 @@ function writeArticleStyleDefault () {
                             userArticle.innerHTML += "<p class=\"paragraph-created\">" + article.value + "... <a href=\"javascript:void(0)\"> Mai mult</a></p><p class=\"paragraph-created\">Articol creeat de: " + inputName.value + " " + inputLastName.value + "</p><hr>";
                         }
                         
-                        userArticle.innerHTML = "<div class=\"default-style-article\">" + userArticle.innerHTML + "</div>";                    
+                        // userArticle.innerHTML = "<div class=\"default-style-article\">" + userArticle.innerHTML + "</div>";                    
                         
                         // document.querySelector("#user-article-container").classList.add("default-style-article");
                         document.querySelector("#user-article-container .heading-created").classList.add("default-style-article-heading");
@@ -730,6 +737,14 @@ let initialArticles;
 function postArticleUp () {
     if(document.querySelector("#post").innerHTML == "Salveaza articol"){
         alert("Daca vrei sa pui acest articol pe site..\n Trebuie sa PLATESTI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        // checkForShow ();
+        // buttonCreator.innerHTML = "Creeaza articol";
+        // userArticle.innerHTML = "";
+        // inputName.value = "";
+        // inputLastName.value = "";
+        // inputTitle.value = "";
+        // article.value = "";
+        // createButtonIsPressed = false;
     } else {
         initialArticles = document.getElementById("articles").innerHTML;
         document.getElementById("articles").innerHTML += "<div id=\"user-article-container\">" + userArticle.innerHTML + "</div>";
